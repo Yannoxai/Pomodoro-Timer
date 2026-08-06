@@ -19,10 +19,10 @@ html.theme-aurora{--bg1:#05121c;--bg2:#0b2b2e;--bg3:#071a28;--accent:#6fe3c1;--a
 html,body{height:100%;min-height:100%;overscroll-behavior-y:none}
 body{font-family:"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;color:var(--text);overflow-x:hidden;-webkit-font-smoothing:antialiased;background:linear-gradient(165deg,var(--bg1),var(--bg2) 55%,var(--bg3));transition:background 1.2s ease,color .8s ease;user-select:none;-webkit-user-select:none;touch-action:manipulation;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none}
 body.modal-open{overflow:hidden}
-button,input,label,textarea,.tdot,.tab,.switch{-webkit-tap-highlight-color:transparent;touch-action:manipulation}
-button{font:inherit;appearance:none;-webkit-appearance:none}
-button:focus,input:focus,textarea:focus{outline:none}
-button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+button,input,label,textarea,[role=button],.tdot,.tab,.switch{-webkit-tap-highlight-color:rgba(0,0,0,0)!important;touch-action:manipulation}
+button,[role=button]{font:inherit;appearance:none;-webkit-appearance:none;-webkit-focus-ring-color:transparent}
+button:focus,[role=button]:focus,input:focus,textarea:focus{outline:none!important}
+button:focus-visible,[role=button]:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
 input,textarea{-webkit-user-select:text;user-select:text}
 .bg{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
 .bg .grad{position:absolute;inset:0;background:linear-gradient(165deg,var(--bg1),var(--bg2) 55%,var(--bg3));transition:background 1.2s ease}
@@ -73,7 +73,7 @@ header{display:flex;align-items:center;gap:14px;flex-wrap:wrap;animation:rise .8
 .eq i:nth-child(3){animation-delay:.32s}
 @keyframes eq{0%,100%{height:4px}50%{height:14px}}
 main{flex:1;display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,.85fr);gap:18px;align-items:start;margin-top:18px;max-width:1120px;width:100%;margin-inline:auto}
-.panel{background:var(--panel);backdrop-filter:blur(20px) saturate(150%);-webkit-backdrop-filter:blur(20px) saturate(150%);border:1px solid var(--line);border-radius:26px;box-shadow:0 24px 70px rgba(0,0,0,.14);padding:22px 24px;animation:rise .8s cubic-bezier(.2,.7,.3,1) both}
+.panel{background:var(--panel);backdrop-filter:blur(20px) saturate(150%);-webkit-backdrop-filter:blur(20px) saturate(150%);border:1px solid var(--line);border-radius:26px;box-shadow:0 24px 70px rgba(0,0,0,.14);padding:22px 24px;animation:rise .8s cubic-bezier(.2,.7,.3,1) var(--d,0s) both}
 @keyframes rise{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
 .timer-panel{--d:.1s;display:flex;flex-direction:column;align-items:center;gap:18px}
 .tabs{display:flex;gap:8px;padding:5px;border-radius:999px;background:var(--track);border:1px solid var(--line)}
@@ -93,7 +93,7 @@ main{flex:1;display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,.85fr);
 .ctrl{width:52px;height:52px;border-radius:50%;border:1px solid var(--line);background:var(--panel);color:var(--text);display:grid;place-items:center;cursor:pointer;transition:transform .2s,box-shadow .2s;box-shadow:0 8px 20px rgba(0,0,0,.1)}
 .ctrl:hover{transform:translateY(-2px)}
 .ctrl svg{width:21px;height:21px}
-.ctrl-main{width:78px;height:78px;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;color:#fff;box-shadow:0 12px 32px var(--glow)}
+.ctrl-main{width:78px;height:78px;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;color:#fff;box-shadow:0 12px 32px var(--glow);overflow:hidden;-webkit-tap-highlight-color:rgba(0,0,0,0)!important}
 .ctrl-main:hover{transform:translateY(-3px) scale(1.04);box-shadow:0 16px 40px var(--glow)}
 .ctrl-main svg{width:30px;height:30px}
 .cycle-dots{display:flex;gap:9px;align-items:center}
@@ -171,6 +171,144 @@ body.standby .task-input input{pointer-events:none}
 @keyframes blink{0%,100%{opacity:.35}50%{opacity:1}}
 #toast{position:fixed;left:50%;bottom:34px;transform:translateX(-50%) translateY(16px);z-index:200;background:var(--panel);border:1px solid var(--line);backdrop-filter:blur(18px);color:var(--text);padding:11px 22px;border-radius:999px;font-size:13.5px;letter-spacing:2px;box-shadow:0 14px 40px rgba(0,0,0,.22);opacity:0;visibility:hidden;transition:all .45s cubic-bezier(.2,.7,.3,1);max-width:88vw;text-align:center}
 #toast.show{opacity:1;visibility:visible;transform:translateX(-50%) translateY(0)}
+.schulte-view{position:fixed;inset:0;z-index:230;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;background:linear-gradient(165deg,var(--bg1),var(--bg2) 55%,var(--bg3));opacity:0;visibility:hidden;pointer-events:none;transition:opacity .4s cubic-bezier(.2,.7,.3,1),visibility 0s linear .4s}
+.schulte-view.open{opacity:1;visibility:visible;pointer-events:auto;transition-delay:0s}
+.schulte-shell{min-height:100%;max-width:1120px;margin:0 auto;padding:calc(20px + env(safe-area-inset-top)) max(20px,env(safe-area-inset-right)) calc(24px + env(safe-area-inset-bottom)) max(20px,env(safe-area-inset-left));transform:translateY(18px) scale(.985);transition:transform .55s cubic-bezier(.2,.7,.3,1)}
+.schulte-view.open .schulte-shell{transform:none}
+body.schulte-open{overflow:hidden}
+body.schulte-open .app{opacity:0;filter:blur(4px);pointer-events:none;transform:scale(.99);transition:opacity .35s ease,filter .45s ease,transform .45s ease}
+.schulte-head{display:flex;align-items:center;gap:14px;margin-bottom:18px;flex-wrap:nowrap;animation:none}
+.schulte-icon{width:44px;height:44px;flex:0 0 44px;display:grid;place-items:center;border:1px solid var(--line);border-radius:50%;background:var(--panel);color:var(--text);box-shadow:0 8px 22px rgba(0,0,0,.12);cursor:pointer;transition:transform .2s,box-shadow .2s,color .2s;-webkit-tap-highlight-color:transparent}
+.schulte-icon:hover{transform:translateY(-2px);box-shadow:0 12px 28px var(--glow);color:var(--accent)}
+.schulte-icon:focus{outline:none}
+.schulte-icon:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.schulte-icon svg{width:20px;height:20px}
+.schulte-title{min-width:0;flex:1}
+.schulte-title h2{font-size:clamp(19px,3vw,26px);font-weight:500;letter-spacing:2px;font-family:"Georgia","Songti SC","STSong",serif}
+.schulte-title p{margin-top:4px;color:var(--soft);font-size:12px;letter-spacing:1.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.schulte-head-actions{display:flex;gap:8px}
+.schulte-main{display:grid;grid-template-columns:minmax(0,1fr) 270px;gap:18px;align-items:start;margin-top:0;max-width:none;width:100%}
+.schulte-surface{background:var(--panel);backdrop-filter:blur(20px) saturate(150%);-webkit-backdrop-filter:blur(20px) saturate(150%);border:1px solid var(--line);border-radius:26px;box-shadow:0 24px 70px rgba(0,0,0,.14);padding:22px}
+.schulte-board{display:flex;flex-direction:column;align-items:center;min-width:0}
+.schulte-board-top{width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+.schulte-rule{display:flex;align-items:center;gap:8px;color:var(--soft);font-size:12px;letter-spacing:1.5px}
+.schulte-rule strong{color:var(--text);font-size:13px;font-weight:500}
+.schulte-rule .dot{width:5px;height:5px;border-radius:50%;background:var(--accent);box-shadow:0 0 8px var(--glow)}
+.schulte-hint{min-height:22px;margin-bottom:12px;color:var(--soft);font-size:13px;letter-spacing:1.5px;text-align:center}
+.schulte-grid-stage{position:relative;width:min(100%,620px);aspect-ratio:1;margin:0 auto 18px}
+.schulte-grid{width:100%;height:100%;display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.schulte-cell{display:flex;align-items:center;justify-content:center;min-width:0;min-height:0;border:1px solid var(--line);border-radius:16px;background:var(--panel);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);color:var(--text);font-size:clamp(22px,5vw,40px);font-weight:300;font-variant-numeric:tabular-nums;font-family:"Segoe UI","Helvetica Neue",Arial,sans-serif;cursor:pointer;user-select:none;-webkit-user-select:none;touch-action:manipulation;-webkit-tap-highlight-color:transparent;box-shadow:0 8px 20px rgba(0,0,0,.1);transition:transform .16s cubic-bezier(.2,.7,.3,1),border-color .16s,box-shadow .16s,background .16s}
+.schulte-grid.is-covered .schulte-cell{color:transparent;cursor:default;background:var(--track)}
+.schulte-grid.is-covered .schulte-cell:hover{transform:none;border-color:var(--line);box-shadow:0 8px 20px rgba(0,0,0,.1)}
+.schulte-countdown{position:absolute;inset:0;display:grid;place-items:center;color:var(--text);font-size:clamp(72px,14vw,128px);font-weight:200;letter-spacing:4px;text-shadow:0 8px 28px var(--glow);opacity:0;visibility:hidden;transform:scale(.76);pointer-events:none;transition:opacity .2s ease,transform .42s cubic-bezier(.2,.7,.3,1),visibility 0s linear .42s}
+.schulte-countdown.show{opacity:1;visibility:visible;transform:scale(1);transition-delay:0s}
+.schulte-countdown.pulse{animation:schulteCountdownPulse .8s cubic-bezier(.2,.7,.3,1)}
+@keyframes schulteCountdownPulse{0%{opacity:.25;transform:scale(1.18)}45%{opacity:1;transform:scale(1)}100%{opacity:1;transform:scale(1)}}
+.schulte-cell:hover{transform:translateY(-2px);border-color:var(--accent);box-shadow:0 12px 28px var(--glow)}
+.schulte-cell:focus{outline:none}
+.schulte-cell:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.schulte-cell.is-correct{cursor:pointer}
+.schulte-cell.is-wrong{animation:schulteShake .24s ease;border-color:var(--accent2);box-shadow:0 0 0 3px var(--glow)}
+@keyframes schulteShake{0%,100%{transform:translateX(0)}30%{transform:translateX(-4px)}70%{transform:translateX(4px)}}
+.schulte-actions{display:flex;justify-content:center;gap:10px;width:100%}
+.schulte-btn{min-height:44px;padding:10px 20px;border:1px solid var(--line);border-radius:13px;background:var(--track);color:var(--text);font-size:13px;letter-spacing:1.5px;cursor:pointer;box-shadow:0 8px 20px rgba(0,0,0,.1);transition:transform .18s,box-shadow .18s,background .18s}
+.schulte-btn:hover{transform:translateY(-2px);box-shadow:0 12px 28px var(--glow)}
+.schulte-btn.primary{background:linear-gradient(135deg,var(--accent),var(--accent2));border-color:transparent;color:#fff;box-shadow:0 10px 26px var(--glow)}
+.schulte-btn:disabled{opacity:.55;cursor:wait;transform:none;box-shadow:0 8px 20px rgba(0,0,0,.08)}
+.schulte-btn:focus{outline:none}
+.schulte-btn:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.schulte-side{display:flex;flex-direction:column;gap:18px}
+.schulte-side-title{display:flex;align-items:center;gap:8px;margin-bottom:16px;color:var(--soft);font-size:13px;letter-spacing:2px;font-weight:600}
+.schulte-side-title::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--accent);box-shadow:0 0 10px var(--glow)}
+.schulte-stats{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.schulte-stat{padding:14px 10px;border:1px solid var(--line);border-radius:16px;background:var(--track);text-align:center}
+.schulte-stat.wide{grid-column:1/-1}
+.schulte-stat-label{display:block;color:var(--soft);font-size:11px;letter-spacing:1.5px}
+.schulte-stat-value{display:block;margin-top:5px;color:var(--text);font-size:25px;font-weight:200;font-variant-numeric:tabular-nums}
+.schulte-note{color:var(--soft);font-size:12px;line-height:1.8;letter-spacing:1px}
+.schulte-note strong{color:var(--text);font-weight:500}
+.schulte-history-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:-2px 0 14px}
+.schulte-history-summary>div{min-width:0;text-align:center}
+.schulte-history-summary span{display:block;color:var(--soft);font-size:10px;letter-spacing:1px}
+.schulte-history-summary strong{display:block;margin-top:4px;color:var(--text);font-size:17px;font-weight:300;font-variant-numeric:tabular-nums;white-space:nowrap}
+.schulte-chart-meta{display:flex;justify-content:space-between;gap:8px;margin-bottom:6px;color:var(--soft);font-size:10px;letter-spacing:1px}
+.schulte-chart{height:142px;display:flex;align-items:stretch;gap:6px;padding:22px 4px 20px;border-bottom:1px solid var(--line);overflow:visible}
+.schulte-chart:empty::after{content:'完成训练后显示趋势';align-self:center;width:100%;color:var(--soft);font-size:11px;text-align:center;letter-spacing:1px}
+.schulte-chart-item{position:relative;flex:1;min-width:0;display:flex;align-items:flex-end;justify-content:center;height:100%}
+.schulte-chart-bar{position:relative;width:100%;max-width:24px;min-height:8px;border-radius:8px 8px 3px 3px;background:linear-gradient(180deg,var(--accent),var(--accent2));box-shadow:0 4px 14px var(--glow);transition:height .5s cubic-bezier(.2,.7,.3,1)}
+.schulte-chart-value{position:absolute;left:50%;bottom:calc(100% + 5px);transform:translateX(-50%);color:var(--soft);font-size:9px;white-space:nowrap;font-variant-numeric:tabular-nums}
+.schulte-chart-label{position:absolute;left:50%;bottom:-18px;transform:translateX(-50%);color:var(--soft);font-size:9px;font-variant-numeric:tabular-nums}
+.schulte-history-list{display:flex;flex-direction:column;gap:6px;margin-top:14px;max-height:190px;overflow:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+.schulte-history-row{display:grid;grid-template-columns:24px minmax(45px,auto) 1fr auto;align-items:center;gap:6px;min-height:28px;color:var(--soft);font-size:10px;font-variant-numeric:tabular-nums}
+.schulte-history-row+.schulte-history-row{border-top:1px dashed var(--line);padding-top:6px}
+.schulte-history-index{color:var(--accent);font-size:10px}
+.schulte-history-time{color:var(--text);font-size:12px}
+.schulte-history-errors{text-align:right;white-space:nowrap}
+.schulte-history-date{font-size:9px;white-space:nowrap}
+.schulte-history-empty{padding:8px 0;color:var(--soft);font-size:11px;text-align:center}
+.schulte-view.stats-open>.schulte-shell>.schulte-head,.schulte-view.stats-open>.schulte-shell>.schulte-main{opacity:0;transform:scale(.985);pointer-events:none;transition:opacity .3s ease,transform .45s cubic-bezier(.2,.7,.3,1)}
+.schulte-stats-view{position:absolute;inset:0;z-index:2;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;background:linear-gradient(165deg,var(--bg1),var(--bg2) 55%,var(--bg3));opacity:0;visibility:hidden;pointer-events:none;transform:translate3d(18px,0,0);transition:opacity .35s ease,transform .45s cubic-bezier(.2,.7,.3,1),visibility 0s linear .45s}
+.schulte-view.stats-open .schulte-stats-view{opacity:1;visibility:visible;pointer-events:auto;transform:none;transition-delay:0s}
+.schulte-stats-shell{display:flex;flex-direction:column;min-height:100%;max-width:1120px;margin:0 auto;padding:calc(20px + env(safe-area-inset-top)) max(20px,env(safe-area-inset-right)) calc(24px + env(safe-area-inset-bottom)) max(20px,env(safe-area-inset-left))}
+.schulte-stats-main{display:block;flex:none;min-height:0}
+.schulte-stats-dashboard{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(300px,1fr);grid-template-rows:auto auto auto;gap:22px;padding:22px;background:var(--panel);backdrop-filter:blur(20px) saturate(150%);-webkit-backdrop-filter:blur(20px) saturate(150%);border:1px solid var(--line);border-radius:26px;box-shadow:0 24px 70px rgba(0,0,0,.14)}
+.schulte-stats-dashboard>.schulte-surface{background:transparent;border:0;border-radius:0;box-shadow:none;backdrop-filter:none;-webkit-backdrop-filter:none;padding:0}
+.schulte-stats-summary{display:grid;grid-column:1/-1;grid-row:1;grid-template-columns:repeat(4,1fr);gap:10px;padding:0 0 22px;border-bottom:1px solid var(--line)}
+.schulte-metric{min-width:0;padding:18px 14px;border:1px solid var(--line);border-radius:18px;background:var(--track)}
+.schulte-metric-label{display:block;color:var(--soft);font-size:11px;letter-spacing:1.5px}
+.schulte-metric-value{display:block;margin-top:8px;color:var(--text);font-size:26px;font-weight:250;font-variant-numeric:tabular-nums;white-space:nowrap}
+.schulte-metric-value.is-positive{color:var(--accent)}
+.schulte-metric-value.is-negative{color:#d86a6a}
+.schulte-metric-sub{display:block;margin-top:5px;color:var(--soft);font-size:10px;letter-spacing:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.schulte-stats-section-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:4px}
+.schulte-stats-section-title{display:flex;align-items:center;gap:8px;color:var(--soft);font-size:13px;letter-spacing:2px;font-weight:600}
+.schulte-stats-section-title::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--accent);box-shadow:0 0 10px var(--glow)}
+.schulte-stats-range{color:var(--soft);font-size:11px;letter-spacing:1px}
+.schulte-trend-panel{display:flex;flex-direction:column;grid-column:1;grid-row:2 / span 2;min-height:360px;padding-right:22px!important;border-right:1px solid var(--line)!important}
+.schulte-trend-wrap{position:relative;min-height:280px;margin-top:10px;padding:4px 0 0}
+.schulte-trend-panel .schulte-trend-wrap{flex:1;min-height:300px}
+.schulte-trend-svg{display:block;width:100%;height:100%;min-height:0;overflow:visible}
+.schulte-trend-svg:focus{outline:none}
+.schulte-trend-grid{stroke:var(--line);stroke-width:1}
+.schulte-trend-best{stroke:var(--accent2);stroke-width:1.5;stroke-dasharray:5 7;opacity:.8}
+.schulte-trend-area{fill:var(--glow);opacity:.2}
+.schulte-trend-line{fill:none;stroke:var(--accent);stroke-width:4;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 0 5px var(--glow))}
+.schulte-trend-point{fill:var(--panel);stroke:var(--accent);stroke-width:3}
+.schulte-trend-point.latest{fill:var(--accent)}
+.schulte-trend-hit{fill:transparent;stroke:transparent;stroke-width:12;cursor:crosshair;pointer-events:all;outline:none}
+.schulte-trend-hit:hover,.schulte-trend-hit:focus,.schulte-trend-hit.is-active{stroke:var(--accent);stroke-opacity:.22}
+.schulte-trend-hit:focus{outline:none}
+.schulte-trend-label{fill:var(--soft);font-family:"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;font-size:11px}
+.schulte-trend-empty{position:absolute;inset:0;display:grid;place-items:center;color:var(--soft);font-size:12px;letter-spacing:1.5px;text-align:center}
+.schulte-trend-empty[hidden]{display:none}
+.schulte-trend-foot{display:flex;justify-content:space-between;gap:10px;margin-top:2px;color:var(--soft);font-size:10px;letter-spacing:1px}
+.schulte-trend-tooltip{position:absolute;z-index:4;width:max-content;max-width:min(240px,calc(100% - 16px));padding:11px 13px;border:1px solid var(--line);border-radius:13px;background:var(--panel);backdrop-filter:blur(18px) saturate(150%);-webkit-backdrop-filter:blur(18px) saturate(150%);box-shadow:0 14px 34px rgba(0,0,0,.2);color:var(--text);pointer-events:none;opacity:0;transform:translateX(-50%) scale(.96);transform-origin:center bottom;transition:opacity .16s ease,transform .16s cubic-bezier(.2,.7,.3,1)}
+.schulte-trend-tooltip.is-visible{opacity:1;transform:translateX(-50%) scale(1)}
+.schulte-trend-tooltip.is-below{transform-origin:center top}
+.schulte-trend-tooltip.is-below.is-visible{transform:translateX(-50%) scale(1)}
+.schulte-trend-tooltip[hidden]{display:none}
+.schulte-trend-tooltip-title{margin-bottom:8px;color:var(--text);font-size:12px;font-weight:600;letter-spacing:1px}
+.schulte-trend-tooltip-grid{display:grid;grid-template-columns:auto auto;gap:5px 14px;font-size:11px;line-height:1.35;font-variant-numeric:tabular-nums}
+.schulte-trend-tooltip-grid span{color:var(--soft)}
+.schulte-trend-tooltip-grid strong{color:var(--text);font-weight:500;text-align:right}
+.schulte-trend-tooltip-foot{margin-top:8px;padding-top:7px;border-top:1px dashed var(--line);color:var(--soft);font-size:10px;letter-spacing:.5px;white-space:nowrap}
+.schulte-trend-tooltip-foot.is-positive{color:var(--accent)}
+.schulte-trend-tooltip-foot.is-negative{color:#d86a6a}
+.schulte-stats-records{max-height:370px;overflow:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;margin-top:4px}
+.schulte-insight-panel{grid-column:2;grid-row:2;padding-bottom:20px!important;border-bottom:1px solid var(--line)!important}
+.schulte-record-panel{grid-column:2;grid-row:3}
+.schulte-stats-record-head,.schulte-stats-record-row{display:grid;grid-template-columns:56px minmax(82px,1fr) 1fr auto;align-items:center;gap:10px}
+.schulte-stats-record-head{min-height:28px;color:var(--soft);font-size:10px;letter-spacing:1px;border-bottom:1px solid var(--line)}
+.schulte-stats-record-row{min-height:42px;color:var(--soft);font-size:11px;font-variant-numeric:tabular-nums;border-bottom:1px dashed var(--line)}
+.schulte-stats-record-row:last-child{border-bottom:0}
+.schulte-stats-record-row strong{color:var(--text);font-size:14px;font-weight:300}
+.schulte-stats-record-row time{font-size:10px;white-space:nowrap;text-align:right}
+.schulte-stats-record-empty{padding:22px 0;color:var(--soft);font-size:12px;text-align:center;letter-spacing:1px}
+.schulte-insight-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:8px}
+.schulte-insight{min-width:0;padding:13px 12px;border:1px solid var(--line);border-radius:15px;background:var(--track)}
+.schulte-insight-label{display:block;color:var(--soft);font-size:10px;letter-spacing:1px}
+.schulte-insight-value{display:block;margin-top:6px;color:var(--text);font-size:20px;font-weight:300;font-variant-numeric:tabular-nums;white-space:nowrap}
+.schulte-insight-sub{display:block;margin-top:4px;color:var(--soft);font-size:9px;letter-spacing:.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .overlay{position:fixed;inset:0;z-index:150;background:rgba(0,0,0,.42);backdrop-filter:blur(8px);opacity:0;visibility:hidden;transition:opacity .35s;cursor:pointer}
 .overlay.open{opacity:1;visibility:visible}
 .modal{position:fixed;z-index:160;top:50%;left:50%;width:min(440px,92vw);max-height:84vh;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;background:var(--panel);backdrop-filter:blur(24px) saturate(160%);-webkit-backdrop-filter:blur(24px) saturate(160%);border:1px solid var(--line);border-radius:24px;box-shadow:0 30px 90px rgba(0,0,0,.3);padding:24px 26px;transform:translate(-50%,-46%) scale(.97);opacity:0;visibility:hidden;transition:all .35s cubic-bezier(.2,.7,.3,1)}
@@ -228,7 +366,7 @@ input:checked + .switch::after{left:22px}
   .brand .mark{width:24px;height:24px}
   .top-actions{gap:6px;max-width:100%;justify-content:flex-end}
   .tdots{gap:7px;padding:7px 9px}
-  .tdot{width:24px;height:24px}
+  .tdot{width:30px;height:30px}
   .icon-btn{width:44px;height:44px}
   main{margin-top:12px;gap:12px}
   .clock-panel{flex-direction:column;align-items:stretch;gap:12px;padding:14px 16px;border-radius:20px}
@@ -258,7 +396,8 @@ input:checked + .switch::after{left:22px}
   .task-input button{width:44px;min-width:44px;border-radius:13px}
   .task-list{max-height:240px;-webkit-overflow-scrolling:touch}
   .task-list li{min-height:44px;padding:10px 8px}
-  .task-list .del{opacity:1;padding:8px}
+  .task-list .del{opacity:1;display:grid;place-items:center;min-width:40px;min-height:40px;padding:6px}
+  .panel .ptitle .ghost{min-height:40px;padding:6px 4px}
   .stat-box{padding:12px 8px;border-radius:14px}
   .week-chart{height:84px}
   footer{display:none}
@@ -290,14 +429,86 @@ input:checked + .switch::after{left:22px}
   body.standby .ci-row{gap:12px;padding:9px 16px;font-size:12px}
   body.standby .ci-quote{font-size:13px;text-align:center}
   body.standby .c-hint{margin-top:20px;padding:0 16px;font-size:11px}
+  .schulte-shell{padding:calc(14px + env(safe-area-inset-top)) max(14px,env(safe-area-inset-right)) calc(18px + env(safe-area-inset-bottom)) max(14px,env(safe-area-inset-left))}
+  .schulte-view{overflow-x:hidden}
+  .schulte-head{gap:10px;margin-bottom:12px}
+  .schulte-title h2{font-size:19px;letter-spacing:1.5px}
+  .schulte-title p{font-size:11px;letter-spacing:1px}
+  .schulte-main{grid-template-columns:1fr;gap:12px}
+  .schulte-surface{padding:16px;border-radius:20px}
+  .schulte-board-top{margin-bottom:12px}
+  .schulte-grid-stage{margin-bottom:14px}
+  .schulte-grid{gap:7px}
+  .schulte-cell{border-radius:11px;font-size:clamp(22px,7vw,34px);box-shadow:0 5px 14px rgba(0,0,0,.09)}
+  .schulte-grid.is-covered .schulte-cell:hover{box-shadow:0 5px 14px rgba(0,0,0,.09)}
+  .schulte-countdown{font-size:clamp(68px,22vw,108px)}
+  .schulte-side{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .schulte-side>section:nth-child(2),.schulte-side>section:last-child{grid-column:1/-1}
+  .schulte-side-title{margin-bottom:12px}
+  .schulte-stat{padding:11px 6px;border-radius:13px}
+  .schulte-stat-value{font-size:21px}
+  .schulte-chart{height:150px}
+  .schulte-chart-bar{max-width:30px}
+  .schulte-history-list{max-height:220px}
+  .schulte-stats-shell{padding:calc(14px + env(safe-area-inset-top)) max(14px,env(safe-area-inset-right)) calc(18px + env(safe-area-inset-bottom)) max(14px,env(safe-area-inset-left))}
+  .schulte-stats-main{grid-template-columns:1fr;grid-template-rows:none;gap:12px;flex:none}
+  .schulte-stats-dashboard{display:block;padding:16px;border-radius:20px}
+  .schulte-stats-dashboard>.schulte-surface{padding:0}
+  .schulte-stats-summary,.schulte-trend-panel,.schulte-insight-panel,.schulte-record-panel{grid-column:auto;grid-row:auto}
+  .schulte-stats-summary{grid-template-columns:1fr 1fr;gap:8px}
+  .schulte-metric{padding:14px 12px;border-radius:15px}
+  .schulte-metric-value{font-size:22px}
+  .schulte-metric-sub{font-size:9px}
+  .schulte-stats-section-head{align-items:flex-start;flex-direction:column;gap:5px}
+  .schulte-trend-wrap{min-height:220px;margin-top:4px}
+  .schulte-trend-svg{min-height:220px}
+  .schulte-trend-tooltip{max-width:min(220px,calc(100% - 10px));padding:10px 11px}
+  .schulte-trend-tooltip-grid{gap:4px 10px;font-size:10px}
+  .schulte-trend-tooltip-foot{font-size:9px}
+  .schulte-trend-panel{min-height:0;margin-top:18px;padding-right:0!important;padding-bottom:18px!important;border-right:0!important;border-bottom:1px solid var(--line)!important}
+  .schulte-trend-panel .schulte-trend-wrap{flex:none}
+  .schulte-trend-foot{font-size:9px;line-height:1.5}
+  .schulte-stats-records{max-height:330px}
+  .schulte-stats-record-head,.schulte-stats-record-row{grid-template-columns:38px 72px 1fr auto;gap:7px}
+  .schulte-stats-record-head{font-size:9px}
+  .schulte-stats-record-row{min-height:40px;font-size:10px}
+  .schulte-stats-record-row strong{font-size:13px}
+  .schulte-stats-record-row time{font-size:9px}
+  .schulte-insight-grid{grid-template-columns:1fr 1fr;gap:8px}
+  .schulte-insight{padding:12px 10px;border-radius:13px}
+  .schulte-insight-value{font-size:18px}
+  .schulte-insight-panel{margin-top:18px;padding-bottom:18px!important;border-bottom:1px solid var(--line)!important}
+  .schulte-record-panel{margin-top:18px}
+  .bg .blob{filter:blur(54px);opacity:.58}
+  html.theme-dawn .halo{filter:blur(20px)}
+  html.theme-starry .moon{box-shadow:0 0 34px 10px rgba(244,233,200,.24),0 0 80px 26px rgba(244,233,200,.1)}
+  .panel,.clock-panel{backdrop-filter:blur(12px) saturate(125%);-webkit-backdrop-filter:blur(12px) saturate(125%);box-shadow:0 14px 36px rgba(0,0,0,.12)}
+  .tdots,.icon-btn{backdrop-filter:blur(10px) saturate(125%);-webkit-backdrop-filter:blur(10px) saturate(125%)}
+  .modal{backdrop-filter:blur(14px) saturate(125%);-webkit-backdrop-filter:blur(14px) saturate(125%)}
+  .overlay{backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px)}
+  .ring-prog{filter:drop-shadow(0 0 5px var(--glow));transition-duration:.45s}
+  .ci-bar-fill{box-shadow:0 0 8px var(--glow);transition-duration:.5s}
+  .noise{opacity:.025}
+}
+@media (max-width:600px),(pointer:coarse){
+  #fx{display:none!important}
+  .bg .blob,.bg .halo,.bg .moon,.bg .wave,.bg .band{animation:none!important;transform:none!important}
+  .bg .blob{filter:blur(42px);opacity:.52}
+  .bg .halo{filter:blur(18px)!important}
 }
 @media (hover:none),(pointer:coarse){
   .icon-btn:hover,.tdot:hover,.ctrl:hover,.ctrl-main:hover,.task-input button:hover,.stat-box:hover,.stepper button:hover,.notify-line button:hover,.danger:hover{transform:none}
-  button:active,.tdot:active,.tab:active,.switch:active,.stepper button:active,.task-input button:active,.notify-line button:active,.danger:active{transform:scale(.96);transition-duration:.12s}
+  button:focus-visible,[role=button]:focus-visible{outline:none!important}
+  button:active,[role=button]:active,.tdot:active,.tab:active,.switch:active,.stepper button:active,.task-input button:active,.notify-line button:active,.danger:active{transform:scale(.96);transition-duration:.12s}
   .ctrl-main:active{transform:scale(.94)}
   .modal .m-head button:active{transform:scale(.9)}
+  .schulte-icon:hover,.schulte-cell:hover,.schulte-btn:hover{transform:none;box-shadow:0 8px 20px rgba(0,0,0,.1)}
+  .schulte-icon:active,.schulte-cell:active,.schulte-btn:active{transform:scale(.96);transition-duration:.12s}
+  .schulte-cell.is-correct:active{transform:scale(.96)}
+  .schulte-cell:focus-visible{outline:none}
 }
 @media (prefers-reduced-motion:reduce){
+  #fx{display:none!important}
   *{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
 }
 </style>
@@ -336,6 +547,9 @@ input:checked + .switch::after{left:22px}
       <button class="icon-btn" id="btnMusic" title="音乐 (M)" aria-label="音乐">
         <svg class="note" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
         <span class="eq" aria-hidden="true"><i></i><i></i><i></i></span>
+      </button>
+      <button class="icon-btn" id="btnSchulte" title="舒尔特训练" aria-label="打开舒尔特训练">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.2"/><rect x="14" y="3" width="7" height="7" rx="1.2"/><rect x="3" y="14" width="7" height="7" rx="1.2"/><rect x="14" y="14" width="7" height="7" rx="1.2"/></svg>
       </button>
       <button class="icon-btn" id="btnSettings" title="设置" aria-label="设置">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33h.01a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51h.01a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82v.01a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
@@ -387,10 +601,10 @@ input:checked + .switch::after{left:22px}
         <button class="ctrl" id="btnReset" title="重置 (R)" aria-label="重置">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>
         </button>
-        <button class="ctrl ctrl-main" id="btnStart" title="开始/暂停 (空格)" aria-label="开始或暂停">
+        <div class="ctrl ctrl-main" id="btnStart" role="button" tabindex="0" title="开始/暂停 (空格)" aria-label="开始或暂停">
           <svg id="icoPlay" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.14v13.72a1 1 0 0 0 1.52.85l11-6.86a1 1 0 0 0 0-1.7l-11-6.86A1 1 0 0 0 8 5.14z"/></svg>
           <svg id="icoPause" viewBox="0 0 24 24" fill="currentColor" style="display:none"><rect x="6" y="4" width="4" height="16" rx="1.2"/><rect x="14" y="4" width="4" height="16" rx="1.2"/></svg>
-        </button>
+        </div>
         <button class="ctrl" id="btnSkip" title="跳过阶段 (N)" aria-label="跳过">
           <svg viewBox="0 0 24 24" fill="currentColor"><path d="M5 5.5v13a1 1 0 0 0 1.52.85l8.48-6.5v5.65a1 1 0 0 0 2 0v-13a1 1 0 0 0-2 0v5.65L6.52 4.65A1 1 0 0 0 5 5.5z"/></svg>
         </button>
@@ -435,6 +649,125 @@ input:checked + .switch::after{left:22px}
   <footer>空格 开始/暂停 · R 重置 · N 跳过 · S 待机 · M 音乐 · T 换主题 · Esc 退出 · 专注时久坐自动进入待机</footer>
 </div>
 
+<div class="schulte-view" id="schulteView" aria-hidden="true">
+  <div class="schulte-shell">
+    <header class="schulte-head">
+      <button class="schulte-icon" id="schulteClose" type="button" title="返回主界面" aria-label="返回主界面">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/><path d="M9 12h12"/></svg>
+      </button>
+      <div class="schulte-title">
+        <h2>舒尔特训练</h2>
+        <p>专注视觉搜索，保持呼吸与节奏</p>
+      </div>
+      <div class="schulte-head-actions">
+        <button class="schulte-icon" id="schulteStats" type="button" title="成绩统计" aria-label="成绩统计">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V5"/><path d="M4 19h16"/><path d="M7 15l3-4 3 2 5-6"/><path d="M18 7h-3"/></svg>
+        </button>
+        <button class="schulte-icon" id="schulteNew" type="button" title="重新出题" aria-label="重新出题">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11a8.1 8.1 0 0 0-14.8-3L3 10"/><path d="M3 4v6h6"/><path d="M4 13a8.1 8.1 0 0 0 14.8 3L21 14"/><path d="M21 20v-6h-6"/></svg>
+        </button>
+      </div>
+    </header>
+    <main class="schulte-main">
+      <section class="schulte-surface schulte-board" aria-label="舒尔特方格训练区">
+        <div class="schulte-board-top">
+          <div class="schulte-rule"><strong>5 × 5</strong><span class="dot"></span><strong>正序 1—25</strong><span class="dot"></span><span>无效果</span></div>
+          <div class="schulte-rule">最佳 <strong id="schulteBest">—</strong></div>
+        </div>
+        <div class="schulte-hint" id="schulteHint" aria-live="polite">点击开始训练，准备 3 秒后开始</div>
+        <div class="schulte-grid-stage" id="schulteGridStage">
+          <div class="schulte-grid is-covered" id="schulteGrid" role="grid" aria-label="5×5 正序舒尔特方格"></div>
+          <div class="schulte-countdown" id="schulteCountdown" aria-live="assertive" aria-hidden="true"></div>
+        </div>
+        <div class="schulte-actions">
+          <button class="schulte-btn primary" id="schulteRestart" type="button">开始训练</button>
+        </div>
+      </section>
+      <aside class="schulte-side">
+        <section class="schulte-surface">
+          <div class="schulte-side-title">当前训练</div>
+          <div class="schulte-stats">
+            <div class="schulte-stat"><span class="schulte-stat-label">目标</span><strong class="schulte-stat-value" id="schulteTarget">1</strong></div>
+            <div class="schulte-stat"><span class="schulte-stat-label">错误</span><strong class="schulte-stat-value" id="schulteErrors">0</strong></div>
+            <div class="schulte-stat wide"><span class="schulte-stat-label">用时</span><strong class="schulte-stat-value" id="schulteTime">0.00s</strong></div>
+          </div>
+        </section>
+        <section class="schulte-surface schulte-history" aria-label="舒尔特成绩记录">
+          <div class="schulte-side-title">成绩表现</div>
+          <div class="schulte-history-summary">
+            <div><span>平均</span><strong id="schulteAverage">—</strong></div>
+            <div><span>最近</span><strong id="schulteLatest">—</strong></div>
+            <div><span>记录</span><strong id="schulteCount">0</strong></div>
+          </div>
+          <div class="schulte-chart-meta"><span>最近 8 次</span><span>柱越高，速度越快</span></div>
+          <div class="schulte-chart" id="schulteChart" role="img" aria-label="暂无舒尔特成绩趋势"></div>
+          <div class="schulte-history-list" id="schulteHistory" aria-live="polite"></div>
+        </section>
+        <section class="schulte-surface schulte-note">
+          <div class="schulte-side-title">训练规则</div>
+          <p>数字固定为 <strong>1—25</strong> 正序排列目标。点击错误数字不会改变进度，点击正确数字后继续寻找下一个目标。</p>
+        </section>
+      </aside>
+    </main>
+    <div class="schulte-stats-view" id="schulteStatsView" aria-hidden="true">
+      <div class="schulte-stats-shell">
+        <header class="schulte-head">
+          <button class="schulte-icon" id="schulteStatsClose" type="button" title="返回训练" aria-label="返回训练">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/><path d="M9 12h12"/></svg>
+          </button>
+          <div class="schulte-title">
+            <h2>成绩统计</h2>
+            <p>回看节奏变化，发现每一次进步</p>
+          </div>
+        </header>
+        <main class="schulte-stats-main">
+          <section class="schulte-stats-dashboard">
+          <section class="schulte-surface schulte-stats-summary" aria-label="成绩摘要">
+            <div class="schulte-metric"><span class="schulte-metric-label">最佳成绩</span><strong class="schulte-metric-value" id="schulteStatsBest">—</strong><span class="schulte-metric-sub">历史最快用时</span></div>
+            <div class="schulte-metric"><span class="schulte-metric-label">平均用时</span><strong class="schulte-metric-value" id="schulteStatsAverage">—</strong><span class="schulte-metric-sub">全部有效记录</span></div>
+            <div class="schulte-metric"><span class="schulte-metric-label">最近成绩</span><strong class="schulte-metric-value" id="schulteStatsLatest">—</strong><span class="schulte-metric-sub" id="schulteStatsLatestSub">等待第一次训练</span></div>
+            <div class="schulte-metric"><span class="schulte-metric-label">提升幅度</span><strong class="schulte-metric-value" id="schulteStatsImprovement">—</strong><span class="schulte-metric-sub">相较首次成绩</span></div>
+          </section>
+          <section class="schulte-surface schulte-trend-panel" aria-label="舒尔特成绩曲线">
+            <div class="schulte-stats-section-head"><div class="schulte-stats-section-title">成绩曲线</div><span class="schulte-stats-range" id="schulteStatsRange">暂无记录</span></div>
+            <div class="schulte-trend-wrap">
+              <svg class="schulte-trend-svg" id="schulteTrendChart" viewBox="0 0 760 320" role="img" aria-label="暂无成绩曲线"></svg>
+              <div class="schulte-trend-empty" id="schulteTrendEmpty">完成训练后，这里会显示你的成绩变化</div>
+              <div class="schulte-trend-tooltip" id="schulteTrendTooltip" role="tooltip" hidden>
+                <div class="schulte-trend-tooltip-title" id="schulteTrendTooltipTitle"></div>
+                <div class="schulte-trend-tooltip-grid">
+                  <span>用时</span><strong id="schulteTrendTooltipTime"></strong>
+                  <span>错误</span><strong id="schulteTrendTooltipErrors"></strong>
+                  <span>完成时间</span><strong id="schulteTrendTooltipDate"></strong>
+                </div>
+                <div class="schulte-trend-tooltip-foot" id="schulteTrendTooltipCompare"></div>
+              </div>
+            </div>
+            <div class="schulte-trend-foot"><span>曲线越高，代表用时越短</span><span id="schulteTrendBestLabel">—</span></div>
+          </section>
+          <section class="schulte-surface schulte-insight-panel" aria-label="舒尔特训练概览">
+            <div class="schulte-stats-section-head"><div class="schulte-stats-section-title">训练概览</div><span class="schulte-stats-range" id="schulteStatsInsight">等待数据</span></div>
+            <div class="schulte-insight-grid">
+              <div class="schulte-insight"><span class="schulte-insight-label">有效记录</span><strong class="schulte-insight-value" id="schulteStatsRounds">0</strong><span class="schulte-insight-sub">本地累计训练次数</span></div>
+              <div class="schulte-insight"><span class="schulte-insight-label">无错误率</span><strong class="schulte-insight-value" id="schulteStatsCleanRate">—</strong><span class="schulte-insight-sub">完成时没有点错</span></div>
+              <div class="schulte-insight"><span class="schulte-insight-label">平均错误</span><strong class="schulte-insight-value" id="schulteStatsAvgErrors">—</strong><span class="schulte-insight-sub">每次训练平均</span></div>
+              <div class="schulte-insight"><span class="schulte-insight-label">最佳领先</span><strong class="schulte-insight-value" id="schulteStatsBestLead">—</strong><span class="schulte-insight-sub">比平均用时更快</span></div>
+            </div>
+          </section>
+          <section class="schulte-surface schulte-record-panel" aria-label="舒尔特完整成绩记录">
+            <div class="schulte-stats-section-head"><div class="schulte-stats-section-title">全部记录</div><span class="schulte-stats-range" id="schulteStatsCount">0 次</span></div>
+            <div class="schulte-stats-records">
+              <div class="schulte-stats-record-head"><span>次数</span><span>用时</span><span>错误</span><span>完成时间</span></div>
+              <div id="schulteStatsRecords"></div>
+            </div>
+          </section>
+          </section>
+        </main>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="overlay" id="overlay"></div>
 <div class="modal" id="settingsModal">
   <div class="m-head"><h3>设置</h3><button id="settingsClose" aria-label="关闭">✕</button></div>
@@ -467,7 +800,7 @@ s.stats=s.stats||{};s.tasks=s.tasks||[];s.cycle=s.cycle||0;s.round=s.round||1;
 save();
 
 const P={focus:s.focus*60,short:s.short*60,long:s.long*60};
-let phase='focus',state='idle',end=0,remain=P.focus,ticker=null,standbyOn=false,idleTimer=null,toastTimer=null;
+let phase='focus',state='idle',end=0,remain=P.focus,ticker=null,standbyOn=false,idleTimer=null,toastTimer=null,lastTitle='',lastClockSecond=-1;
 const RING=document.getElementById('ringProg'),RING_C=2*Math.PI*132;
 
 function save(){localStorage.setItem(STORE_KEY,JSON.stringify(s));}
@@ -481,15 +814,27 @@ function escapeHtml(t){const d=document.createElement('div');d.textContent=t;ret
 
 function render(){
   const t=state==='running'?Math.max(0,(end-Date.now())/1000):remain;
-  $('#timeText').textContent=fmt(t);
+  const display=fmt(t);
+  $('#timeText').textContent=display;
   const total=durOf(phase);
   RING.style.strokeDashoffset=RING_C*(1-Math.min(1,t/total));
-  $('#phaseNote').textContent=phaseLabel();
-  document.title=(state==='running'?fmt(t)+' · ':'')+phaseLabel()+' — 自律';
+  const label=phaseLabel();
+  $('#phaseNote').textContent=label;
+  const title=(state==='running'?display+' · ':'')+label+' — 自律';
+  if(title!==lastTitle){document.title=title;lastTitle=title;}
   $$('#phaseTabs .tab').forEach(b=>b.classList.toggle('active',b.dataset.phase===phase));
   document.body.classList.toggle('p-running',state==='running');
   document.getElementById('ringProg').classList.toggle('ring-glow',state==='running');
   $$('#cycleDots span').forEach((d,i)=>d.classList.toggle('on',i<s.cycle));
+  renderClock();
+}
+function renderRunning(){
+  const t=Math.max(0,(end-Date.now())/1000),display=fmt(t);
+  const timeEl=$('#timeText');
+  if(timeEl.textContent!==display)timeEl.textContent=display;
+  RING.style.strokeDashoffset=RING_C*(1-Math.min(1,t/durOf(phase)));
+  const title=display+' · '+phaseLabel()+' — 自律';
+  if(title!==lastTitle){document.title=title;lastTitle=title;}
   renderClock();
 }
 function updateBtn(){
@@ -498,7 +843,7 @@ function updateBtn(){
   $('#icoPause').style.display=running?'':'none';
   $('#btnStart').setAttribute('aria-label',running?'暂停':'开始');
 }
-function tickLoop(){render();if(state==='running'&&end-Date.now()<=0)complete();}
+function tickLoop(){if(state!=='running')return;renderRunning();if(end-Date.now()<=0)complete();}
 
 let AC=null;
 function ac(){if(!AC){try{AC=new(window.AudioContext||window.webkitAudioContext)();}catch(e){AC=null;}}if(AC&&AC.state==='suspended'){try{AC.resume();}catch(e){}}return AC;}
@@ -530,9 +875,10 @@ function chime(type){
   if(s.volume<=0)return;
   const v=.55;
   if(type==='start'){
-    tone(523.25,.6,v,0);
-    tone(659.25,.8,v,.14);
-    tone(783.99,.9,v*.5,.28);
+    const startV=v*.38;
+    tone(523.25,.52,startV,0);
+    tone(659.25,.72,startV*.82,.14);
+    tone(783.99,.82,startV*.36,.28);
   }else if(type==='pause'){
     tone(659.25,.28,v*.7,0,'sine');
     tone(523.25,.42,v*.55,.08,'triangle');
@@ -540,6 +886,16 @@ function chime(type){
     tone(392,.24,v*.5,0,'triangle');
     tone(523.25,.3,v*.55,.09,'sine');
     tone(659.25,.42,v*.42,.18,'sine');
+  }else if(type==='schulteCorrect'){
+    tone(783.99,.11,v*.34,0,'sine');
+    tone(1046.5,.18,v*.25,.045,'triangle');
+  }else if(type==='schulteWrong'){
+    tone(233.08,.1,v*.28,0,'triangle');
+    tone(174.61,.16,v*.22,.045,'sine');
+  }else if(type==='schulteFinish'){
+    tone(659.25,.34,v*.48,0,'sine');
+    tone(783.99,.42,v*.4,.1,'sine');
+    tone(1046.5,.62,v*.32,.22,'triangle');
   }else if(type==='focusEnd'){
     tone(659.25,1.1,v,0);
     tone(523.25,1.3,v,.22);
@@ -862,14 +1218,19 @@ function exitStandby(fromPointer){
   if(fromPointer&&lastExitXY)lastExitXY.t=Date.now();
 }
 function renderClock(){
-  const d=new Date(),p=n=>String(n).padStart(2,'0');
-  $('#clockText').textContent=p(d.getHours())+':'+p(d.getMinutes())+':'+p(d.getSeconds());
-  $('#clockDate').textContent=d.getFullYear()+' 年 '+(d.getMonth()+1)+' 月 '+d.getDate()+' 日 · 星期'+'日一二三四五六'[d.getDay()];
+  const now=Date.now(),second=Math.floor(now/1000),d=new Date(now),p=n=>String(n).padStart(2,'0');
+  if(second!==lastClockSecond){
+    $('#clockText').textContent=p(d.getHours())+':'+p(d.getMinutes())+':'+p(d.getSeconds());
+    $('#clockDate').textContent=d.getFullYear()+' 年 '+(d.getMonth()+1)+' 月 '+d.getDate()+' 日 · 星期'+'日一二三四五六'[d.getDay()];
+    lastClockSecond=second;
+  }
   const t=state==='running'?Math.max(0,(end-Date.now())/1000):remain;
-  $('#standbyPhase').textContent=phaseLabel()+(state==='running'?' · 进行中':state==='paused'?' · 已暂停':' · 待开始');
-  $('#standbyRemain').textContent=fmt(t);
-  $('#standbyBar').style.width=(Math.min(1,Math.max(0,t/durOf(phase)))*100)+'%';
-  $('#standbyDots').textContent='今日已完成 '+todayStat().f+' / 4 个番茄';
+  const phaseText=phaseLabel()+(state==='running'?' · 进行中':state==='paused'?' · 已暂停':' · 待开始');
+  const remainText=fmt(t),barWidth=(Math.min(1,Math.max(0,t/durOf(phase)))*100)+'%',dotsText='今日已完成 '+todayStat().f+' / 4 个番茄';
+  if($('#standbyPhase').textContent!==phaseText)$('#standbyPhase').textContent=phaseText;
+  if($('#standbyRemain').textContent!==remainText)$('#standbyRemain').textContent=remainText;
+  if($('#standbyBar').style.width!==barWidth)$('#standbyBar').style.width=barWidth;
+  if($('#standbyDots').textContent!==dotsText)$('#standbyDots').textContent=dotsText;
 }
 function armIdle(){
   clearTimeout(idleTimer);
@@ -895,6 +1256,7 @@ $('#btnMusic').addEventListener('click',()=>{
   toast(MUSIC.playing?'音乐已开启 · '+THEME_CN[s.theme]:'音乐已关闭');
 });
 $('#btnStart').addEventListener('click',toggle);
+$('#btnStart').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();toggle();}});
 $('#btnReset').addEventListener('click',reset);
 $('#btnSkip').addEventListener('click',skip);
 $$('#phaseTabs .tab').forEach(b=>b.addEventListener('click',()=>setPhase(b.dataset.phase)));
@@ -948,6 +1310,287 @@ const modal=$('#settingsModal'),overlay=$('#overlay');
 const notifyButton=$('#btnNotify'),notifyState=$('#notifyState'),notifySub=$('#notifySub'),notifyRow=$('#notifyRow');
 function openModal(){modal.classList.add('open');overlay.classList.add('open');document.body.classList.add('modal-open');refreshNotifyState();}
 function closeModal(){modal.classList.remove('open');overlay.classList.remove('open');document.body.classList.remove('modal-open');}
+const SCHULTE={
+  key:'zlv_schulte_records_v1',opened:false,statsOpened:false,lastLayout:null,view:null,grid:null,countdown:null,hint:null,target:null,time:null,errors:null,best:null,restart:null,average:null,latest:null,count:null,chart:null,history:null,statsView:null,statsClose:null,statsChart:null,statsTrendWrap:null,statsTooltip:null,statsTooltipTitle:null,statsTooltipTime:null,statsTooltipErrors:null,statsTooltipDate:null,statsTooltipCompare:null,activeTrendHit:null,trendRecords:[],statsEmpty:null,statsBest:null,statsAverage:null,statsLatest:null,statsLatestSub:null,statsImprovement:null,statsRange:null,statsBestLabel:null,statsCount:null,statsRecords:null,statsInsight:null,statsRounds:null,statsCleanRate:null,statsAvgErrors:null,statsBestLead:null,state:null,
+  init(){
+    this.view=$('#schulteView');this.grid=$('#schulteGrid');this.countdown=$('#schulteCountdown');this.hint=$('#schulteHint');this.target=$('#schulteTarget');
+    this.time=$('#schulteTime');this.errors=$('#schulteErrors');this.best=$('#schulteBest');this.restart=$('#schulteRestart');
+    this.average=$('#schulteAverage');this.latest=$('#schulteLatest');this.count=$('#schulteCount');this.chart=$('#schulteChart');this.history=$('#schulteHistory');
+    this.statsView=$('#schulteStatsView');this.statsClose=$('#schulteStatsClose');this.statsChart=$('#schulteTrendChart');this.statsTrendWrap=this.statsChart.closest('.schulte-trend-wrap');this.statsTooltip=$('#schulteTrendTooltip');this.statsTooltipTitle=$('#schulteTrendTooltipTitle');this.statsTooltipTime=$('#schulteTrendTooltipTime');this.statsTooltipErrors=$('#schulteTrendTooltipErrors');this.statsTooltipDate=$('#schulteTrendTooltipDate');this.statsTooltipCompare=$('#schulteTrendTooltipCompare');this.statsEmpty=$('#schulteTrendEmpty');this.statsBest=$('#schulteStatsBest');this.statsAverage=$('#schulteStatsAverage');this.statsLatest=$('#schulteStatsLatest');this.statsLatestSub=$('#schulteStatsLatestSub');this.statsImprovement=$('#schulteStatsImprovement');this.statsRange=$('#schulteStatsRange');this.statsBestLabel=$('#schulteTrendBestLabel');this.statsCount=$('#schulteStatsCount');this.statsRecords=$('#schulteStatsRecords');this.statsInsight=$('#schulteStatsInsight');this.statsRounds=$('#schulteStatsRounds');this.statsCleanRate=$('#schulteStatsCleanRate');this.statsAvgErrors=$('#schulteStatsAvgErrors');this.statsBestLead=$('#schulteStatsBestLead');
+    $('#btnSchulte').addEventListener('click',()=>this.open());
+    $('#schulteClose').addEventListener('click',()=>this.close());
+    $('#schulteStats').addEventListener('click',()=>this.openStats());
+    this.statsClose.addEventListener('click',()=>this.closeStats());
+    this.statsChart.addEventListener('pointerover',e=>{const hit=e.target.closest&&e.target.closest('.schulte-trend-hit');if(hit)this.showTrendTooltip(Number(hit.dataset.index),hit);});
+    this.statsChart.addEventListener('pointermove',e=>{const hit=e.target.closest&&e.target.closest('.schulte-trend-hit');if(hit)this.showTrendTooltip(Number(hit.dataset.index),hit);});
+    this.statsChart.addEventListener('pointerleave',e=>{if(e.pointerType!=='touch')this.hideTrendTooltip();});
+    this.statsChart.addEventListener('focusin',e=>{const hit=e.target.closest&&e.target.closest('.schulte-trend-hit');if(hit)this.showTrendTooltip(Number(hit.dataset.index),hit);});
+    this.statsChart.addEventListener('focusout',e=>{if(!this.statsChart.contains(e.relatedTarget))this.hideTrendTooltip();});
+    this.statsChart.addEventListener('click',e=>{const hit=e.target.closest&&e.target.closest('.schulte-trend-hit');if(hit&&(window.matchMedia&&window.matchMedia('(pointer:coarse)').matches))this.showTrendTooltip(Number(hit.dataset.index),hit);else if(!hit)this.hideTrendTooltip();});
+    document.addEventListener('pointerdown',e=>{if(this.statsTooltip&&!this.statsTrendWrap.contains(e.target))this.hideTrendTooltip();},{passive:true});
+    $('#schulteNew').addEventListener('click',()=>this.newGame());
+    this.restart.addEventListener('click',()=>{this.newGame();this.startCountdown();});
+    this.renderHistory();
+    this.renderStatsView();
+    this.newGame();
+  },
+  hideTrendTooltip(){
+    if(this.activeTrendHit)this.activeTrendHit.classList.remove('is-active');
+    this.activeTrendHit=null;
+    if(this.statsTooltip){this.statsTooltip.classList.remove('is-visible');this.statsTooltip.hidden=true;}
+  },
+  showTrendTooltip(index,anchor){
+    const record=this.trendRecords[index];
+    if(!record||!anchor||!this.statsTooltip||!this.statsTrendWrap)return;
+    if(this.activeTrendHit===anchor&&this.statsTooltip.classList.contains('is-visible'))return;
+    const previous=index>0?this.trendRecords[index-1]:null;
+    this.statsTooltipTitle.textContent='第 '+(index+1)+' 次训练';
+    this.statsTooltipTime.textContent=record.time.toFixed(2)+' 秒';
+    this.statsTooltipErrors.textContent=record.errors?'错误 '+record.errors+' 次':'无错误';
+    this.statsTooltipDate.textContent=this.formatRecordDate(record.at);
+    this.statsTooltipCompare.classList.remove('is-positive','is-negative');
+    if(!previous){this.statsTooltipCompare.textContent='这是你的首次训练';}
+    else{
+      const delta=record.time-previous.time;
+      if(Math.abs(delta)<.005){this.statsTooltipCompare.textContent='与上次成绩基本持平';}
+      else if(delta<0){this.statsTooltipCompare.textContent='比上次快 '+Math.abs(delta).toFixed(2)+' 秒';this.statsTooltipCompare.classList.add('is-positive');}
+      else{this.statsTooltipCompare.textContent='比上次慢 '+delta.toFixed(2)+' 秒';this.statsTooltipCompare.classList.add('is-negative');}
+    }
+    if(this.activeTrendHit&&this.activeTrendHit!==anchor)this.activeTrendHit.classList.remove('is-active');
+    this.activeTrendHit=anchor;anchor.classList.add('is-active');
+    this.statsTooltip.hidden=false;
+    const anchorRect=anchor.getBoundingClientRect(),wrapRect=this.statsTrendWrap.getBoundingClientRect();
+    const anchorX=anchorRect.left-wrapRect.left+anchorRect.width/2,anchorTop=anchorRect.top-wrapRect.top,anchorBottom=anchorRect.bottom-wrapRect.top;
+    const tooltipWidth=this.statsTooltip.offsetWidth,tooltipHeight=this.statsTooltip.offsetHeight,pad=8;
+    const left=Math.max(tooltipWidth/2+pad,Math.min(wrapRect.width-tooltipWidth/2-pad,anchorX));
+    const below=anchorTop<tooltipHeight+18,top=below?anchorBottom+12:anchorTop-tooltipHeight-12;
+    this.statsTooltip.classList.toggle('is-below',below);this.statsTooltip.style.left=left+'px';this.statsTooltip.style.top=Math.max(4,top)+'px';
+    requestAnimationFrame(()=>{if(this.statsTooltip&&!this.statsTooltip.hidden)this.statsTooltip.classList.add('is-visible');});
+  },
+  createState(){return{numbers:[],next:1,started:false,countdown:false,countdownValue:0,finished:false,errors:0,startAt:0,timer:null,countdownTimer:null};},
+  randomIndex(max){
+    const source=window.crypto;
+    if(source&&typeof source.getRandomValues==='function'){
+      const limit=Math.floor(4294967296/max)*max,buffer=new Uint32Array(1);
+      try{do{source.getRandomValues(buffer);}while(buffer[0]>=limit);return buffer[0]%max;}catch(e){}
+    }
+    return Math.floor(Math.random()*max);
+  },
+  shuffleOnce(){
+    const a=Array.from({length:25},(_,i)=>i+1);
+    for(let i=a.length-1;i>0;i--){const j=this.randomIndex(i+1);[a[i],a[j]]=[a[j],a[i]];}
+    return a;
+  },
+  isValidLayout(a){
+    if(!Array.isArray(a)||a.length!==25)return false;
+    const seen=new Set(a);
+    return seen.size===25&&a.every(n=>Number.isInteger(n)&&n>=1&&n<=25);
+  },
+  shuffle(){
+    let candidate=this.shuffleOnce();
+    for(let i=0;i<8&&this.lastLayout&&candidate.join(',')===this.lastLayout;i++)candidate=this.shuffleOnce();
+    if(!this.isValidLayout(candidate))candidate=this.shuffleOnce();
+    this.lastLayout=candidate.join(',');
+    return candidate;
+  },
+  loadRecords(){
+    try{
+      const raw=JSON.parse(localStorage.getItem(this.key)||'[]');
+      if(!Array.isArray(raw))return[];
+      return raw.map(item=>{
+        const time=typeof item==='number'?item:item&&Number(item.time);
+        if(!Number.isFinite(time)||time<0)return null;
+        const errors=typeof item==='number'?0:Math.max(0,Math.round(Number(item&&item.errors)||0));
+        const at=typeof item==='number'?0:Number(item&&item.at);
+        return{time,errors,at:Number.isFinite(at)&&at>0?at:0};
+      }).filter(Boolean).slice(-30);
+    }catch(e){return[];}
+  },
+  saveRecord(time,errors){
+    const list=this.loadRecords();
+    list.push({time:Number(time.toFixed(2)),errors:Math.max(0,Math.round(errors||0)),at:Date.now()});
+    localStorage.setItem(this.key,JSON.stringify(list.slice(-30)));
+  },
+  bestTime(){const list=this.loadRecords();return list.length?Math.min(...list.map(record=>record.time)):null;},
+  formatRecordDate(at){
+    if(!Number.isFinite(at)||at<=0)return'历史';
+    const d=new Date(at);if(Number.isNaN(d.getTime()))return'历史';
+    const p=n=>String(n).padStart(2,'0');
+    return(d.getMonth()+1)+'/'+p(d.getDate())+' '+p(d.getHours())+':'+p(d.getMinutes());
+  },
+  renderHistory(){
+    const records=this.loadRecords(),best=records.length?Math.min(...records.map(record=>record.time)):null;
+    const average=records.length?records.reduce((sum,record)=>sum+record.time,0)/records.length:null;
+    const latest=records.length?records[records.length-1]:null;
+    this.best.textContent=best===null?'—':best.toFixed(2)+'s';
+    this.average.textContent=average===null?'—':average.toFixed(2)+'s';
+    this.latest.textContent=latest?latest.time.toFixed(2)+'s':'—';
+    this.count.textContent=records.length;
+    const visible=records.slice(-8),max=visible.length?Math.max(...visible.map(record=>record.time)):1,min=visible.length?Math.min(...visible.map(record=>record.time)):0,range=max-min;
+    this.chart.innerHTML='';
+    this.chart.setAttribute('aria-label',visible.length?'最近 '+visible.length+' 次舒尔特成绩，柱越高表示用时越短':'暂无舒尔特成绩趋势');
+    visible.forEach((record,index)=>{
+      const item=document.createElement('div');item.className='schulte-chart-item';
+      const bar=document.createElement('span');bar.className='schulte-chart-bar';
+      const height=range<.005?62:Math.round(28+((max-record.time)/range)*72);
+      bar.style.height=height+'%';bar.title='第 '+(records.length-visible.length+index+1)+' 次 · '+record.time.toFixed(2)+' 秒 · 错误 '+record.errors+' 次';
+      const value=document.createElement('span');value.className='schulte-chart-value';value.textContent=record.time.toFixed(1)+'s';
+      const label=document.createElement('span');label.className='schulte-chart-label';label.textContent=records.length-visible.length+index+1;
+      bar.appendChild(value);item.appendChild(bar);item.appendChild(label);this.chart.appendChild(item);
+    });
+    this.history.innerHTML='';
+    if(!records.length){this.history.innerHTML='<div class="schulte-history-empty">完成一次训练后，这里会留下你的成绩</div>';return;}
+    records.slice().reverse().forEach((record,index)=>{
+      const row=document.createElement('div');row.className='schulte-history-row';
+      const no=document.createElement('span');no.className='schulte-history-index';no.textContent='#'+(records.length-index);
+      const time=document.createElement('strong');time.className='schulte-history-time';time.textContent=record.time.toFixed(2)+'s';
+      const errors=document.createElement('span');errors.className='schulte-history-errors';errors.textContent=record.errors?'错误 '+record.errors:'无错误';
+      const date=document.createElement('time');date.className='schulte-history-date';date.textContent=this.formatRecordDate(record.at);
+      row.appendChild(no);row.appendChild(time);row.appendChild(errors);row.appendChild(date);this.history.appendChild(row);
+    });
+  },
+  renderStatsView(){
+    const records=this.loadRecords(),times=records.map(record=>record.time),best=times.length?Math.min(...times):null,average=times.length?times.reduce((sum,time)=>sum+time,0)/times.length:null,latest=records.length?records[records.length-1]:null,baseline=records.length>1?records[0].time:null;
+    this.trendRecords=records;this.hideTrendTooltip();
+    const improvement=baseline&&latest?((baseline-latest.time)/baseline)*100:null;
+    const totalErrors=records.reduce((sum,record)=>sum+record.errors,0),cleanRate=records.length?records.filter(record=>record.errors===0).length/records.length*100:null,averageErrors=records.length?totalErrors/records.length:null,bestLead=average!==null&&best!==null?average-best:null;
+    const insight=improvement===null?'等待数据':improvement>0.05?'最近表现正在变快':improvement<-0.05?'最近成绩有波动':'整体保持稳定';
+    this.statsBest.textContent=best===null?'—':best.toFixed(2)+'s';
+    this.statsAverage.textContent=average===null?'—':average.toFixed(2)+'s';
+    this.statsLatest.textContent=latest?latest.time.toFixed(2)+'s':'—';
+    this.statsLatestSub.textContent=latest?'第 '+records.length+' 次 · '+(latest.errors?'错误 '+latest.errors+' 次':'无错误'):'等待第一次训练';
+    this.statsImprovement.textContent=improvement===null?'—':(improvement>=0?'+':'')+improvement.toFixed(1)+'%';
+    this.statsImprovement.classList.toggle('is-positive',improvement!==null&&improvement>0.05);
+    this.statsImprovement.classList.toggle('is-negative',improvement!==null&&improvement<-0.05);
+    this.statsRange.textContent=records.length?'最近 '+records.length+' 次':'暂无记录';
+    this.statsCount.textContent=records.length+' 次';
+    this.statsBestLabel.textContent=best===null?'—':'最佳 '+best.toFixed(2)+'s';
+    this.statsInsight.textContent=insight;
+    this.statsRounds.textContent=records.length;
+    this.statsCleanRate.textContent=cleanRate===null?'—':cleanRate.toFixed(0)+'%';
+    this.statsAvgErrors.textContent=averageErrors===null?'—':averageErrors.toFixed(1);
+    this.statsBestLead.textContent=bestLead===null?'—':'+'+bestLead.toFixed(2)+'s';
+    this.statsChart.innerHTML='';
+    this.statsEmpty.hidden=!!records.length;
+    this.statsChart.setAttribute('aria-label',records.length?'舒尔特成绩曲线，共 '+records.length+' 次记录':'暂无成绩曲线');
+    if(records.length){
+      const W=760,H=320,L=56,R=20,T=30,B=48,max=Math.max(...times),min=Math.min(...times),span=Math.max(max-min,Math.max(max*.08,.1)),low=Math.max(0,min-span*.12),high=max+span*.12,scale=high-low;
+      const x=i=>L+(records.length===1?0:(i/(records.length-1))*(W-L-R));
+      const y=time=>T+((time-low)/scale)*(H-T-B);
+      const points=records.map((record,index)=>({x:x(index),y:y(record.time)}));
+      const grid=[];
+      for(let i=0;i<5;i++){
+        const value=low+(scale*i/4),gy=y(value);
+        grid.push('<line class="schulte-trend-grid" x1="'+L+'" y1="'+gy.toFixed(2)+'" x2="'+(W-R)+'" y2="'+gy.toFixed(2)+'"></line><text class="schulte-trend-label" x="4" y="'+(gy+4).toFixed(2)+'">'+value.toFixed(1)+'s</text>');
+      }
+      const linePath=points.map((point,index)=>(index?'L ':'M ')+point.x.toFixed(2)+' '+point.y.toFixed(2)).join(' '),areaPath='M '+points[0].x.toFixed(2)+' '+(H-B)+' '+points.map(point=>'L '+point.x.toFixed(2)+' '+point.y.toFixed(2)).join(' ')+' L '+points[points.length-1].x.toFixed(2)+' '+(H-B)+' Z',bestY=y(best);
+      const labels=[];[0,Math.floor((records.length-1)/2),records.length-1].forEach(index=>{if(!labels.includes(index))labels.push(index);});
+      const xLabels=labels.map(index=>'<text class="schulte-trend-label" text-anchor="middle" x="'+points[index].x.toFixed(2)+'" y="'+(H-14)+'">第 '+(index+1)+' 次</text>').join('');
+      const pointMarkup=points.map((point,index)=>{
+        const record=records[index],errorText=record.errors?'错误 '+record.errors+' 次':'无错误';
+        return '<circle class="schulte-trend-point'+(index===points.length-1?' latest':'')+'" cx="'+point.x.toFixed(2)+'" cy="'+point.y.toFixed(2)+'" r="'+(index===points.length-1?'5':'4')+'"></circle><circle class="schulte-trend-hit" cx="'+point.x.toFixed(2)+'" cy="'+point.y.toFixed(2)+'" r="10" data-index="'+index+'" tabindex="0" role="button" aria-label="第 '+(index+1)+' 次训练，用时 '+record.time.toFixed(2)+' 秒，'+errorText+'"></circle>';
+      }).join('');
+      this.statsChart.innerHTML=grid.join('')+'<line class="schulte-trend-best" x1="'+L+'" y1="'+bestY.toFixed(2)+'" x2="'+(W-R)+'" y2="'+bestY.toFixed(2)+'"></line><path class="schulte-trend-area" d="'+areaPath+'"></path><path class="schulte-trend-line" d="'+linePath+'"></path>'+pointMarkup+xLabels;
+    }
+    this.statsRecords.innerHTML='';
+    if(!records.length){this.statsRecords.innerHTML='<div class="schulte-stats-record-empty">完成一次训练后，这里会留下完整记录</div>';return;}
+    records.slice().reverse().forEach((record,index)=>{
+      const row=document.createElement('div');row.className='schulte-stats-record-row';
+      const no=document.createElement('span');no.textContent='#'+(records.length-index);
+      const time=document.createElement('strong');time.textContent=record.time.toFixed(2)+'s';
+      const errors=document.createElement('span');errors.textContent=record.errors?'错误 '+record.errors:'无错误';
+      const date=document.createElement('time');date.textContent=this.formatRecordDate(record.at);
+      row.appendChild(no);row.appendChild(time);row.appendChild(errors);row.appendChild(date);this.statsRecords.appendChild(row);
+    });
+  },
+  elapsed(){return this.state&&this.state.started?(performance.now()-this.state.startAt)/1000:0;},
+  openStats(){
+    if(!this.opened||this.statsOpened)return;
+    this.renderStatsView();this.statsOpened=true;this.view.classList.add('stats-open');this.statsView.setAttribute('aria-hidden','false');
+  },
+  closeStats(){
+    if(!this.statsOpened)return;
+    this.statsOpened=false;this.view.classList.remove('stats-open');this.statsView.setAttribute('aria-hidden','true');
+    if(document.activeElement&&this.statsView.contains(document.activeElement))document.activeElement.blur();
+  },
+  open(){
+    if(this.opened)return;
+    if(modal.classList.contains('open'))closeModal();
+    this.opened=true;this.view.classList.add('open');this.view.setAttribute('aria-hidden','false');document.body.classList.add('schulte-open');
+    this.newGame();
+  },
+  close(){
+    if(!this.opened)return;
+    if(this.statsOpened)this.closeStats();
+    this.stopTimer();this.stopCountdown();this.opened=false;this.view.classList.remove('open');this.view.setAttribute('aria-hidden','true');document.body.classList.remove('schulte-open');
+    if(document.activeElement&&this.view.contains(document.activeElement))document.activeElement.blur();
+    this.newGame();
+  },
+  newGame(){
+    this.stopTimer();this.stopCountdown();this.state=this.createState();this.state.numbers=this.shuffle();this.renderGrid();this.hideCountdown();this.update();
+    if(this.opened)this.hint.textContent='点击开始训练，准备 3 秒后开始';
+  },
+  renderGrid(){
+    this.grid.innerHTML='';
+    this.grid.classList.add('is-covered');
+    this.state.numbers.forEach(num=>{
+      const cell=document.createElement('div');cell.className='schulte-cell';cell.textContent='';cell.dataset.num=num;cell.setAttribute('role','gridcell');cell.setAttribute('aria-label','数字待揭示');cell.setAttribute('aria-hidden','true');cell.tabIndex=-1;
+      cell.addEventListener('click',()=>this.onCellClick(cell,num));
+      cell.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();this.onCellClick(cell,num);}});
+      this.grid.appendChild(cell);
+    });
+  },
+  startTimer(){this.stopTimer();this.state.timer=setInterval(()=>this.update(),100);},
+  stopTimer(){if(this.state&&this.state.timer){clearInterval(this.state.timer);this.state.timer=null;}},
+  stopCountdown(){if(this.state&&this.state.countdownTimer){clearInterval(this.state.countdownTimer);this.state.countdownTimer=null;}if(this.state)this.state.countdown=false;},
+  showCountdown(value){
+    this.countdown.textContent=value||'';this.countdown.classList.remove('pulse');
+    if(value){this.countdown.setAttribute('aria-hidden','false');this.countdown.classList.add('show');void this.countdown.offsetWidth;this.countdown.classList.add('pulse');}
+    else{this.countdown.classList.remove('show');this.countdown.setAttribute('aria-hidden','true');}
+  },
+  hideCountdown(){this.showCountdown(0);},
+  revealGrid(){
+    this.grid.classList.remove('is-covered');
+    this.grid.querySelectorAll('.schulte-cell').forEach(cell=>{cell.textContent=cell.dataset.num;cell.setAttribute('aria-label','数字 '+cell.dataset.num);cell.setAttribute('aria-hidden','false');cell.tabIndex=0;});
+  },
+  startCountdown(){
+    if(!this.state||this.state.countdown||this.state.started&&!this.state.finished)return;
+    ac();this.stopTimer();this.state.countdown=true;this.state.countdownValue=3;this.restart.disabled=true;this.hint.textContent='准备开始';this.showCountdown(this.state.countdownValue);this.update();
+    this.state.countdownTimer=setInterval(()=>{
+      if(!this.state||!this.state.countdown){this.stopCountdown();return;}
+      this.state.countdownValue--;
+      if(this.state.countdownValue<=0){
+        this.stopCountdown();this.state.started=true;this.state.startAt=performance.now();this.revealGrid();this.hideCountdown();this.startTimer();chime('start');this.hint.textContent='开始作答，寻找数字 1';this.update();
+      }else{this.showCountdown(this.state.countdownValue);this.update();}
+    },1000);
+  },
+  wrong(cell,message){
+    cell.classList.remove('is-wrong');void cell.offsetWidth;cell.classList.add('is-wrong');
+    setTimeout(()=>cell.classList.remove('is-wrong'),260);
+    chime('schulteWrong');
+    if(navigator.vibrate)try{navigator.vibrate(8);}catch(e){}
+    if(message)this.hint.textContent=message;
+  },
+  onCellClick(cell,num){
+    if(!this.state||this.state.finished||this.state.countdown||!this.state.started)return;
+    if(cell.dataset.correct==='true'){this.state.errors++;this.update();this.wrong(cell,'这个数字已完成 · 下一个目标是 '+this.state.next);return;}
+    if(num!==this.state.next){this.state.errors++;this.update();this.wrong(cell,'下一个目标是 '+this.state.next);return;}
+    chime('schulteCorrect');
+    cell.dataset.correct='true';cell.removeAttribute('aria-disabled');cell.tabIndex=0;cell.classList.add('is-correct');this.state.next++;
+    if(this.state.next>25)this.finish();else this.update();
+  },
+  finish(){
+    this.state.finished=true;this.stopTimer();const time=this.elapsed();this.saveRecord(time,this.state.errors);this.renderHistory();this.renderStatsView();chime('schulteFinish');this.update();
+    this.hint.textContent='训练完成 · '+time.toFixed(2)+'s';this.restart.textContent='再来一次';
+    if(navigator.vibrate)try{navigator.vibrate([10,35,16]);}catch(e){}
+  },
+  update(){
+    if(!this.state)return;
+    const best=this.bestTime(),timeText=this.state.started?this.elapsed().toFixed(2)+'s':'—';this.target.textContent=this.state.finished?'✓':this.state.next;this.errors.textContent=this.state.errors;this.time.textContent=timeText;this.best.textContent=best===null?'—':best.toFixed(2)+'s';
+    this.restart.disabled=!!this.state.countdown;this.restart.textContent=this.state.countdown?'准备中':this.state.started&&!this.state.finished?'重新开始':this.state.finished?'再来一次':'开始训练';
+  }
+};
+SCHULTE.init();
 $('#btnSettings').addEventListener('click',openModal);
 $('#settingsClose').addEventListener('click',closeModal);
 overlay.addEventListener('click',closeModal);
@@ -1010,13 +1653,17 @@ notifyButton.addEventListener('click',()=>{
 refreshNotifyState();
 $('#btnResetData').addEventListener('click',()=>{
   if(!confirm('确定重置全部数据？主题、时长、统计与待办都将清空。'))return;
-  localStorage.removeItem(STORE_KEY);location.reload();
+  localStorage.removeItem(STORE_KEY);localStorage.removeItem(SCHULTE.key);location.reload();
 });
 
 document.addEventListener('click',e=>{
-  const b=e.target.closest('button');
+  const b=e.target.closest('button,[role="button"]');
   if(b&&typeof b.blur==='function')b.blur();
 });
+['pointerup','touchend'].forEach(ev=>document.addEventListener(ev,e=>{
+  const b=e.target.closest('button,[role="button"]');
+  if(b&&document.activeElement===b)requestAnimationFrame(()=>b.blur());
+},{passive:true}));
 window.addEventListener('click',function h(e){
   if(lastExitXY&&Date.now()-lastExitXY.t<400&&Math.abs(e.clientX-lastExitXY.x)<6&&Math.abs(e.clientY-lastExitXY.y)<6){
     e.stopPropagation();e.preventDefault();
@@ -1038,6 +1685,7 @@ window.addEventListener('click',function h(e){
   })
 );
 window.addEventListener('keydown',e=>{
+  if(SCHULTE.opened){if(e.key==='Escape'){SCHULTE.statsOpened?SCHULTE.closeStats():SCHULTE.close();e.preventDefault();}return;}
   if(standbyOn){e.preventDefault();exitStandby(false);return;}
   if(e.target.matches('input,textarea'))return;
   if(e.isComposing)return;
@@ -1091,12 +1739,19 @@ const FXDEF={
   aurora:{type:'motes',colors:['rgba(111,227,193,.75)','rgba(88,199,232,.7)','rgba(180,160,255,.6)'],n:40,spd:9}
 };
 const fx=$('#fx'),fctx=fx.getContext('2d');
-let W,H,DPR,parts=[],fxType='motes',fxColors=['rgba(255,190,120,.9)'],fxN=45,fxSpd=14,shooters=[];
+let W,H,DPR,parts=[],fxType='motes',fxColors=['rgba(255,190,120,.9)'],fxN=45,fxSpd=14,shooters=[],fxMobile=false,fxLastFrame=0;
+let resizeTimer=0;
 function resize(){
-  DPR=Math.min(devicePixelRatio||1,2);W=innerWidth;H=innerHeight;
+  W=innerWidth;H=innerHeight;
+  fxMobile=innerWidth<=600||(window.matchMedia&&window.matchMedia('(pointer:coarse)').matches);
+  DPR=Math.min(devicePixelRatio||1,fxMobile?1.25:2);
   fx.width=W*DPR;fx.height=H*DPR;fctx.setTransform(DPR,0,0,DPR,0,0);
   spawn();
   if(standbyOn)centerChip();
+}
+function queueResize(){
+  clearTimeout(resizeTimer);
+  resizeTimer=setTimeout(resize,120);
 }
 class Mote{
   init(){this.x=rand(0,W);this.y=rand(0,H);this.r=rand(1.5,4.2);this.vy=rand(-fxSpd,fxSpd*.35);this.vx=rand(-5,5);this.a=rand(.2,.85);this.aa=rand(.5,1.4);this.ph=rand(0,6.28);this.sprite=makeSprite(fxColors[Math.floor(Math.random()*fxColors.length)]);}
@@ -1122,12 +1777,17 @@ const TYPE_CLS={motes:Mote,bubbles:Bubble,stars:Star,petals:Petal};
 function spawn(){
   parts=[];shooters=[];
   const def=FXDEF[document.documentElement.className.replace('theme-','')]||FXDEF.dawn;
-  fxType=def.type;fxColors=def.colors;fxN=def.n;fxSpd=def.spd;
+  fxType=def.type;fxColors=def.colors;fxN=fxMobile?Math.max(12,Math.round(def.n*.58)):def.n;fxSpd=def.spd;
   const Cls=TYPE_CLS[fxType];
   for(let i=0;i<fxN;i++){const p=new Cls();p.init();parts.push(p);}
 }
 function loop(now){
   requestAnimationFrame(loop);
+  if(document.hidden||fxMobile)return;
+  const frameGap=fxMobile?34:16;
+  if(now-fxLastFrame<frameGap)return;
+  const dt=fxLastFrame?Math.min(.05,(now-fxLastFrame)/1000):1/60;
+  fxLastFrame=now;
   const t=now/1000;
   fctx.clearRect(0,0,W,H);
   if(fxType==='stars'&&Math.random()<.015&&shooters.length<2){
@@ -1135,8 +1795,8 @@ function loop(now){
     shooters.push({x:fromLeft?rand(-60,-20):rand(W+20,W+60),y:rand(0,H*.4),vx:(fromLeft?1:-1)*rand(300,520),vy:rand(90,160),life:0,ttl:rand(1,1.6)});
   }
   shooters=shooters.filter(sh=>{
-    sh.life+=1/60;
-    sh.x+=sh.vx/60;sh.y+=sh.vy/60;
+    sh.life+=dt;
+    sh.x+=sh.vx*dt;sh.y+=sh.vy*dt;
     if(sh.life<sh.ttl){
       const head=1-sh.life/sh.ttl;
       const gr=fctx.createLinearGradient(sh.x,sh.y,sh.x-sh.vx*.05,sh.y-sh.vy*.05);
@@ -1146,11 +1806,11 @@ function loop(now){
     }
     return sh.life<sh.ttl&&sh.x>-80&&sh.x<W+80;
   });
-  for(const p of parts){p.update(1/60,t);p.draw(fctx,t);}
+  for(const p of parts){p.update(dt,t);p.draw(fctx,t);}
   fctx.globalAlpha=1;
 }
 const FX={set(theme){spawn();}};
-window.addEventListener('resize',resize);
+window.addEventListener('resize',queueResize,{passive:true});
 resize();
 requestAnimationFrame(loop);
 
